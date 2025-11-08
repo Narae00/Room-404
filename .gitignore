@@ -2,6 +2,18 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+
+
+
+# =============================
+# IDE & OS 관련 파일 제외
+# =============================
+.vscode/
+.vsconfig
+.idea/
+.DS_Store
+Thumbs.db
+
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
