@@ -3,8 +3,6 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 
-
-
 # =============================
 # IDE & OS 관련 파일 제외
 # =============================
@@ -13,6 +11,7 @@
 .idea/
 .DS_Store
 Thumbs.db
+>>>>>>> eadc368594823f6c4eca77993f52b4f1011a7b3a
 
 .utmp/
 /[Ll]ibrary/
