@@ -2,26 +2,61 @@ using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit;
+
 
 
 public class LeverAttachTrigger : MonoBehaviour
-{
+{   
+    public int leverIndex;
+    public LeverPuzzleController controller;
     public Rigidbody baseBody;
     public Transform attachPoint;
     public float z_target = 0.1f; 
     private HingeJoint hinge;
     private bool attached = false;
 
-    
+    private void Update()
+    {
+        if (!attached || hinge == null) return;
+
+        // 현재 각도 출력
+        // Debug.Log("현재 레버 각도 = " + hinge.angle);
+
+        // 각도에 따라서 3 단계로 조절
+        if (hinge.angle > 50f)
+        {
+            SetLeverAngle(70f);
+        }
+        else if (hinge.angle < -50f)
+        {
+            SetLeverAngle(-70f);
+        }
+        else
+        {
+            SetLeverAngle(0f);
+        }
+    }
+
+    public void SetLeverAngle(float targetAngle)
+    {
+        if (!attached || hinge == null) return;
+
+        hinge.useSpring = true; // 반드시 켜야 동작
+        var spring = hinge.spring;
+        spring.targetPosition = targetAngle;
+        hinge.spring = spring;
+
+        // Debug.Log($"레버 목표 각도로 이동 → {targetAngle}");
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger on ");
-        var handle = other.GetComponentInParent<XRGrabInteractable>();
-        if (handle == null) return;
-
         // 이미 부착되어 있으면 무시
         if (attached) return;
+        // Debug.Log("Trigger on ");
+        var handle = other.GetComponentInParent<XRGrabInteractable>();
+        if (handle == null) return;
 
         // 아직 손에 들려 있는 상태라면(Grab 중) => 부착 X
         if (handle.isSelected) return;
@@ -49,16 +84,19 @@ public class LeverAttachTrigger : MonoBehaviour
         limits.max = 80;
         hinge.limits = limits;
 
-        hinge.useSpring = false;
+        hinge.useSpring = true;
         var spring = hinge.spring;
-        spring.spring = 120;
-        spring.damper = 40;
+        spring.spring = 60;
+        spring.damper = 25;
         hinge.spring = spring;
 
         attached = true;
-        Debug.Log("✅ 레버 핸들 부착됨!");
+
+        controller.RegisterLever(leverIndex, hinge);
+        Debug.Log($"✅ {leverIndex}번 핸들 부착됨!");
     }
 
+    
 
     private void OnTriggerExit(Collider other)
     {
