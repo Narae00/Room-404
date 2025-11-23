@@ -27,14 +27,17 @@ public class LeverAttachTrigger : MonoBehaviour
         if (hinge.angle > 50f)
         {
             SetLeverAngle(70f);
+            controller.SetLeverState(leverIndex, true);
         }
         else if (hinge.angle < -50f)
         {
             SetLeverAngle(-70f);
+            controller.SetLeverState(leverIndex, false);
         }
         else
         {
             SetLeverAngle(0f);
+            controller.SetLeverState(leverIndex, false);
         }
     }
 
@@ -92,7 +95,6 @@ public class LeverAttachTrigger : MonoBehaviour
 
         attached = true;
 
-        controller.RegisterLever(leverIndex, hinge);
         Debug.Log($"✅ {leverIndex}번 핸들 부착됨!");
     }
 
