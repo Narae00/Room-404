@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class LeverPuzzleController : MonoBehaviour
 {
@@ -7,8 +8,7 @@ public class LeverPuzzleController : MonoBehaviour
 
     // 레버 상태 저장
     [SerializeField] private bool[] leverStates;
-
-    public event Action OnPuzzleSolved;
+    public UnityEvent SolveLeverPuzzle;
     public event Action<int, bool> OnLeverChanged;
 
     private bool isSolved = false;
@@ -32,7 +32,6 @@ public class LeverPuzzleController : MonoBehaviour
             OnLeverChanged?.Invoke(i, false);
         }
 
-        Debug.Log("🔄 퍼즐 초기화 완료");
     }
 
     /// 모든 레버 ON이면 성공
@@ -61,8 +60,7 @@ public class LeverPuzzleController : MonoBehaviour
         if (CheckSolved())
         {
             isSolved = true;
-            Debug.Log("🎉 퍼즐 성공!");
-            OnPuzzleSolved?.Invoke();
+            Debug.Log("🎉 레버 퍼즐 성공!");
         }
     }
 

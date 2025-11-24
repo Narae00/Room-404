@@ -1,31 +1,31 @@
 using UnityEngine;
-
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class KeyWithHinge : MonoBehaviour
 {
     [Header("References")]
-    public Transform insertPoint;          // 키가 꽂힐 위치
-    public HingeJoint hinge;          // KeyJointRoot에 붙는 Joint
-    public Rigidbody keyJointRootRb;       // 축 역할
-    public Collider keyHoleTrigger;        // Keyhole Trigger
+    public Transform insertPoint;
+    public HingeJoint hinge;
+    public Rigidbody keyJointRootRb;
+    public Collider keyHoleTrigger;
     public UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grab;
 
     [Header("Unlock Settings")]
-    public float unlockAngle = 60f;        // 이 각도 이상 돌리면 Unlock
+    public float unlockAngle = 60f;        // 이 각도 이상 회전하면 언락
     public UnityEvent onUnlocked;
 
     [Header("Behavior")]
-    public bool autoSnap = true;           // 들어오면 스냅
-    public bool disableKeyPullOut = true;  // 꽂힌 뒤 당겨도 빠지지 않게 함
+    public bool autoSnap = true;
+    public bool disableKeyPullOut = true;
 
     private bool inserted = false;
     private bool unlocked = false;
 
-    private float startAngle = 0f;
+    private float startAngle;
     private Rigidbody rb;
 
-    private void Awake()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         hinge.connectedBody = null;
@@ -35,9 +35,7 @@ public class KeyWithHinge : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other == keyHoleTrigger)
-        {
             InsertKey();
-        }
     }
 
     private void InsertKey()
@@ -45,7 +43,7 @@ public class KeyWithHinge : MonoBehaviour
         if (inserted) return;
         inserted = true;
 
-        // 위치·회전 스냅
+        // 스냅 적용
         if (autoSnap)
         {
             rb.transform.SetPositionAndRotation(insertPoint.position, insertPoint.rotation);
@@ -53,28 +51,55 @@ public class KeyWithHinge : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
-        // 축에 연결
+        // hinge 연결
         hinge.connectedBody = rb;
+
+        if (disableKeyPullOut)
+            rb.constraints = RigidbodyConstraints.FreezePosition;
+
+        // 다음 물리 프레임에서 startAngle을 안전하게 설정
+        StartCoroutine(InitStartAngleNextPhysicsFrame());
+    }
+
+    private System.Collections.IEnumerator InitStartAngleNextPhysicsFrame()
+    {
+        yield return new WaitForFixedUpdate();  // ⚠ hinge 초기화 기다림
 
         startAngle = hinge.angle;
 
-        if (disableKeyPullOut)
-        {
-            // 키가 더 이상 위치 변하지 않게
-            rb.constraints = RigidbodyConstraints.FreezePosition;
-        }
+        // 안전장치: NaN 방지
+        if (float.IsNaN(startAngle))
+            startAngle = 0f;
+
+        // 디버그용
+        Debug.Log("[KeyWithHinge] Start Angle 설정됨 → " + startAngle);
     }
 
-    private void Update()
+    void Update()
     {
-        if (!inserted || unlocked) return;
+        if (!inserted || unlocked)
+            return;
 
-        float delta = Mathf.Abs(Mathf.DeltaAngle(startAngle, hinge.angle));
+        float currentAngle = hinge.angle;
 
-        if (delta >= unlockAngle)
+        // NaN 보호
+        if (float.IsNaN(currentAngle))
+            return;
+
+
+        // 디버그 출력
+        Debug.Log($"[Angle]: {currentAngle}");
+
+        // 조건 만족하면 로그 + 이벤트 실행
+        if (85f <= Mathf.Abs(currentAngle) && Mathf.Abs(currentAngle) <= 93f)
         {
             unlocked = true;
+
+            Debug.Log("🔓 Unlock 조건 만족! 이벤트 실행됨");
             onUnlocked?.Invoke();
+
+            // 🔥 열쇠 삭제
+            Destroy(gameObject);
         }
     }
 }

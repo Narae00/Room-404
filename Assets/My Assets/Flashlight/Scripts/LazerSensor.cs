@@ -10,15 +10,20 @@ public class LaserSensor : MonoBehaviour
 
     private float _charge = 0f;
     private bool _hitThisFrame = false;
+    private bool solvePuzzle = false;
 
     void Update()
-    {
+    {   
+        if (solvePuzzle) return ;
+
         // 매 프레임 감지 상태 갱신
         if (_hitThisFrame)
         {
             _charge += Time.deltaTime;
+            Debug.Log(_charge);
             if (_charge >= requiredHitTime)
             {
+                solvePuzzle = true;
                 _charge = requiredHitTime;
                 onUnlocked.Invoke(); // 이벤트 실행
                 Debug.Log("레이저 감지 완료");

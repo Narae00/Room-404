@@ -82,7 +82,7 @@ public class LaserPointer : MonoBehaviour
                 if (sensor != null)
                 {
                     sensor.RegisterHit();
-                    Debug.Log("센서에 레이저 맞음");
+                    // Debug.Log("센서에 레이저 맞음");
                     break;
                 }
 
