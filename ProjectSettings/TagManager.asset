@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Anchor
   - LeverHandle
+  - Hammer
+  - HiddenClue
   layers:
   - Default
   - TransparentFX

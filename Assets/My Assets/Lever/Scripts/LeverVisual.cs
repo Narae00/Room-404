@@ -3,7 +3,7 @@ using UnityEngine;
 public class LeverVisual : MonoBehaviour
 {
     public int leverIndex;        // 0~4
-    public LeverPuzzleControll controller;
+    public LeverPuzzleController controller;
 
     public float offAngle = -40f; // OFF 상태 각도
     public float onAngle  = 40f;  // ON 상태 각도
