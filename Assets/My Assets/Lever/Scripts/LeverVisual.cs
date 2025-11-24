@@ -5,6 +5,8 @@
 //     public int leverIndex;        // 0~4
 //     public LeverPuzzelController controller;
 
+
+
 //     public float offAngle = -40f; // OFF 상태 각도
 //     public float onAngle  = 40f;  // ON 상태 각도
 
