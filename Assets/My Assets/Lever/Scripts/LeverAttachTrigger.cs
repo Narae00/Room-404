@@ -12,7 +12,8 @@ public class LeverAttachTrigger : MonoBehaviour
     public LeverPuzzleController controller;
     public Rigidbody baseBody;
     public Transform attachPoint;
-    public float z_target = 0.1f; 
+    public Vector3 axis;
+    public Vector3 anchor;
     private HingeJoint hinge;
     private bool attached = false;
 
@@ -79,8 +80,8 @@ public class LeverAttachTrigger : MonoBehaviour
         // HingeJoint 부착
         hinge = rb.gameObject.AddComponent<HingeJoint>();
         hinge.connectedBody = baseBody;
-        hinge.axis = Vector3.right;
-        hinge.anchor = new Vector3(0, 0, z_target);
+        hinge.axis = axis;
+        hinge.anchor = anchor;
         hinge.useLimits = true;
         var limits = hinge.limits;
         limits.min = -80;
