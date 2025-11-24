@@ -8,6 +8,7 @@ TagManager:
   - LeverHandle
   - Hammer
   - RedBook
+  - HiddenClue
   layers:
   - Default
   - TransparentFX
