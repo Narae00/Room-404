@@ -11,6 +11,11 @@ public class LeverPuzzleController : MonoBehaviour
     public UnityEvent SolveLeverPuzzle;
     public event Action<int, bool> OnLeverChanged;
 
+    // ▼▼▼ [추가된 부분 1] : 디스펜서(레이저 포인터) 연결 변수
+    [Header("연결")]
+    public DropItem itemDispenser;  // <-- 이렇게 고치세요!; 
+    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
     private bool isSolved = false;
 
     private void Awake()
@@ -31,7 +36,6 @@ public class LeverPuzzleController : MonoBehaviour
             leverStates[i] = false;
             OnLeverChanged?.Invoke(i, false);
         }
-
     }
 
     /// 모든 레버 ON이면 성공
@@ -50,7 +54,6 @@ public class LeverPuzzleController : MonoBehaviour
             return;
         if (isSolved) return;
 
-
         leverStates[leverIndex] = state;
 
         // 이벤트
@@ -61,7 +64,16 @@ public class LeverPuzzleController : MonoBehaviour
         {
             isSolved = true;
             Debug.Log("🎉 레버 퍼즐 성공!");
+            
+            // 기존 이벤트 실행
             SolveLeverPuzzle?.Invoke();
+
+            // ▼▼▼ [추가된 부분 2] : 아이템 투하 명령!
+            if (itemDispenser != null)
+            {
+                itemDispenser.DropNow(); // 여기서 툭 떨어트립니다!
+            }
+            // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         }
     }
 
