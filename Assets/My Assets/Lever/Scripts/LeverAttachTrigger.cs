@@ -1,44 +1,55 @@
 using UnityEngine;
-using UnityEngine.XR.ARSubsystems;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
-using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit;
-
-
+using UnityEngine.XR.Interaction.Toolkit.Interactables; // 최신 XR Toolkit 기준
 
 public class LeverAttachTrigger : MonoBehaviour
-{   
+{
     public int leverIndex;
     public LeverPuzzleController controller;
     public Rigidbody baseBody;
     public Transform attachPoint;
     public Vector3 axis;
     public Vector3 anchor;
+
+    [Header("🔊 사운드 설정 (추가됨)")]
+    public AudioSource audioSource; // 소리를 낼 스피커 컴포넌트
+    public AudioClip attachSound;   // 끼울 때 소리 (철컥)
+    public AudioClip pullSound;     // 내릴 때 소리 (딸각 or 웅~)
+
     private HingeJoint hinge;
     private bool attached = false;
+    
+    // 소리가 중복해서 계속 나는 것을 방지하기 위한 체크 변수
+    private bool hasPlayedPullSound = false; 
 
     private void Update()
     {
         if (!attached || hinge == null) return;
 
-        // 현재 각도 출력
-        // Debug.Log("현재 레버 각도 = " + hinge.angle);
-
         // 각도에 따라서 3 단계로 조절
-        if (hinge.angle > 50f)
+        if (hinge.angle > 50f) // 레버를 내림 (ON)
         {
             SetLeverAngle(70f);
             controller.SetLeverState(leverIndex, true);
+
+            // ★ 내리는 소리 재생 (한 번만 실행되게 체크)
+            if (!hasPlayedPullSound)
+            {
+                PlaySound(pullSound);
+                hasPlayedPullSound = true; // 소리 났음! 체크
+            }
         }
-        else if (hinge.angle < -50f)
+        else if (hinge.angle < -50f) // 레버를 올림 (OFF)
         {
             SetLeverAngle(-70f);
             controller.SetLeverState(leverIndex, false);
+            hasPlayedPullSound = false; // 다시 내릴 때 소리 나게 리셋
         }
-        else
+        else // 중간 (OFF)
         {
             SetLeverAngle(0f);
             controller.SetLeverState(leverIndex, false);
+            hasPlayedPullSound = false; // 리셋
         }
     }
 
@@ -46,34 +57,30 @@ public class LeverAttachTrigger : MonoBehaviour
     {
         if (!attached || hinge == null) return;
 
-        hinge.useSpring = true; // 반드시 켜야 동작
+        hinge.useSpring = true; 
         var spring = hinge.spring;
         spring.targetPosition = targetAngle;
         hinge.spring = spring;
-
-        // Debug.Log($"레버 목표 각도로 이동 → {targetAngle}");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // 이미 부착되어 있으면 무시
         if (attached) return;
-        // Debug.Log("Trigger on ");
+
+        // XR Toolkit 버전에 따라 경로가 다를 수 있으니 Parent까지 찾음
         var handle = other.GetComponentInParent<XRGrabInteractable>();
         if (handle == null) return;
 
-        // 아직 손에 들려 있는 상태라면(Grab 중) => 부착 X
+        // 손에 들고 있으면 부착 안 함
         if (handle.isSelected) return;
 
         handle.movementType = XRBaseInteractable.MovementType.VelocityTracking;
-        // Rigidbody 가져오기
+        
         Rigidbody rb = other.attachedRigidbody;
         if (rb == null) return;
 
-        // 강제 위치 정렬
+        // 위치 정렬 및 물리 설정
         rb.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
-
-        // 물리 세팅
         rb.isKinematic = false;
         rb.useGravity = false;
 
@@ -83,6 +90,7 @@ public class LeverAttachTrigger : MonoBehaviour
         hinge.axis = axis;
         hinge.anchor = anchor;
         hinge.useLimits = true;
+        
         var limits = hinge.limits;
         limits.min = -80;
         limits.max = 80;
@@ -96,27 +104,37 @@ public class LeverAttachTrigger : MonoBehaviour
 
         attached = true;
 
+        // ★ 부착 소리 재생!
+        PlaySound(attachSound);
+
         Debug.Log($"✅ {leverIndex}번 핸들 부착됨!");
     }
 
-    
-
     private void OnTriggerExit(Collider other)
     {
-        var handle = other.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+        var handle = other.GetComponentInParent<XRGrabInteractable>();
         if (handle == null) return;
         if (!attached) return;
 
         var rb = other.attachedRigidbody;
         if (rb == null) return;
 
-        // ✅ HingeJoint 제거 (Base에서 분리)
         var joint = rb.GetComponent<HingeJoint>();
         if (joint != null)
         {
             Destroy(joint);
             attached = false;
+            hasPlayedPullSound = false; // 분리되면 소리 체크도 리셋
             Debug.Log("레버 핸들 분리됨!");
+        }
+    }
+
+    // 소리 재생을 위한 간단한 함수
+    void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }
