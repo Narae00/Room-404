@@ -9,6 +9,7 @@ TagManager:
   - Hammer
   - RedBook
   - HiddenClue
+  - Key
   layers:
   - Default
   - TransparentFX
