@@ -37,7 +37,9 @@ public class FaucetWaterController : MonoBehaviour
             {
                 // 물이 다 찼으면 연기 파티클 ON
                 if (!steamPlayed)
-                {
+                {   
+                    steamParticle.Clear();
+                    steamParticle.gameObject.SetActive(true);
                     steamParticle.Play();
                     steamPlayed = true;
                     steamTimer = 0f;   // 연기 타이머 초기화
@@ -77,6 +79,8 @@ public class FaucetWaterController : MonoBehaviour
         steamPlayed = false;
         steamTimer = 0f;
         steamParticle.Stop();
+        steamParticle.Clear();
+        steamParticle.gameObject.SetActive(false);
 
         if (!waterParticle.isPlaying)
             waterParticle.Play();
