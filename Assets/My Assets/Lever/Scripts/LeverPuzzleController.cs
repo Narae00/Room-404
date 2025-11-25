@@ -61,6 +61,7 @@ public class LeverPuzzleController : MonoBehaviour
         {
             isSolved = true;
             Debug.Log("🎉 레버 퍼즐 성공!");
+            SolveLeverPuzzle?.Invoke();
         }
     }
 
