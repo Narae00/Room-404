@@ -640,7 +640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4483512726280516, guid: 783ccef7dd9a51c449108933ea9a643e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.658
+      value: -1.9990001
       objectReference: {fileID: 0}
     - target: {fileID: 4483512726280516, guid: 783ccef7dd9a51c449108933ea9a643e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -648,7 +648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4483512726280516, guid: 783ccef7dd9a51c449108933ea9a643e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.6140001
+      value: -0.7739999
       objectReference: {fileID: 0}
     - target: {fileID: 4483512726280516, guid: 783ccef7dd9a51c449108933ea9a643e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -842,7 +842,7 @@ Transform:
   m_GameObject: {fileID: 178530302}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: 0.35399997, y: -0.23099995, z: 2.4190001}
+  m_LocalPosition: {x: 0.35399997, y: -0.211, z: 2.429}
   m_LocalScale: {x: 2.3296096, y: 2.1, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2184,12 +2184,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleDoor
   openAngle: 0
-  closeAngle: -90
-  speed: 2
+  closeAngle: 90
+  speed: 0.45
   lockAfterClose: 1
   rotationAxis: {x: 0, y: 0, z: 1}
-  audioSource: {fileID: 0}
-  closeSound: {fileID: 0}
+  audioSource: {fileID: 309277890}
+  closeSound: {fileID: 8300000, guid: 71338e9c0995b42569ef100ba7f3c5c7, type: 3}
 --- !u!82 &309277890
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3710,9 +3710,9 @@ MonoBehaviour:
   attachPoint: {fileID: 1542276053}
   axis: {x: 0, y: 0, z: 1}
   anchor: {x: 0.1, y: 0, z: 0}
-  audioSource: {fileID: 0}
-  attachSound: {fileID: 0}
-  pullSound: {fileID: 0}
+  audioSource: {fileID: 473571768}
+  attachSound: {fileID: 8300000, guid: c6bc574867deb52418abb7e5cea4ba06, type: 3}
+  pullSound: {fileID: 8300000, guid: 02d56f6fd35cf6b42bd0ea2abb562959, type: 3}
 --- !u!82 &473571768
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4006,18 +4006,23 @@ PrefabInstance:
       value: PokeButton
       objectReference: {fileID: 0}
     - target: {fileID: 2130331531475655813, guid: d661f645c81f29b4aa596207971ae441, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.2088173e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331531475655813, guid: d661f645c81f29b4aa596207971ae441, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0050925915
       objectReference: {fileID: 0}
     - target: {fileID: 2130331531475655813, guid: d661f645c81f29b4aa596207971ae441, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0055000065
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8348423061939033190, guid: d661f645c81f29b4aa596207971ae441, type: 3}
       propertyPath: m_PokeFilter
       value: 
       objectReference: {fileID: 1521784236}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3199942921445726553, guid: d661f645c81f29b4aa596207971ae441, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4082,7 +4087,7 @@ Transform:
   m_GameObject: {fileID: 521598445}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: -3.97, y: -0.20700002, z: 1.5590003}
+  m_LocalPosition: {x: -2.8, y: -0.20700002, z: 1.5590005}
   m_LocalScale: {x: 2.6922603, y: 2.1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5092,9 +5097,9 @@ MonoBehaviour:
   attachPoint: {fileID: 1408098635}
   axis: {x: 0, y: 0, z: 1}
   anchor: {x: 0.1, y: 0, z: 0}
-  audioSource: {fileID: 0}
-  attachSound: {fileID: 0}
-  pullSound: {fileID: 0}
+  audioSource: {fileID: 692262543}
+  attachSound: {fileID: 8300000, guid: c6bc574867deb52418abb7e5cea4ba06, type: 3}
+  pullSound: {fileID: 8300000, guid: 02d56f6fd35cf6b42bd0ea2abb562959, type: 3}
 --- !u!82 &692262543
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5204,6 +5209,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wheel
       objectReference: {fileID: 0}
+    - target: {fileID: 1267251087845533686, guid: 04052c76cd8138f47bfc66ae8d456707, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a4e4ab053ccca14a9368e67f5690b9c, type: 3}
     - target: {fileID: 3344241857523076466, guid: 04052c76cd8138f47bfc66ae8d456707, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.736
@@ -5248,7 +5257,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4892930730426088574, guid: 04052c76cd8138f47bfc66ae8d456707, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -6193,7 +6203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4539977021472082, guid: a401c43a1bdde404d89a6bef17ff2c0d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.045
+      value: -1.3860002
       objectReference: {fileID: 0}
     - target: {fileID: 4539977021472082, guid: a401c43a1bdde404d89a6bef17ff2c0d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6201,7 +6211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4539977021472082, guid: a401c43a1bdde404d89a6bef17ff2c0d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.698
+      value: 1.5380001
       objectReference: {fileID: 0}
     - target: {fileID: 4539977021472082, guid: a401c43a1bdde404d89a6bef17ff2c0d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10893,9 +10903,9 @@ MonoBehaviour:
   attachPoint: {fileID: 771236356}
   axis: {x: 0, y: 0, z: 1}
   anchor: {x: 0.1, y: 0, z: 0}
-  audioSource: {fileID: 0}
-  attachSound: {fileID: 0}
-  pullSound: {fileID: 0}
+  audioSource: {fileID: 1396509950}
+  attachSound: {fileID: 8300000, guid: c6bc574867deb52418abb7e5cea4ba06, type: 3}
+  pullSound: {fileID: 8300000, guid: 02d56f6fd35cf6b42bd0ea2abb562959, type: 3}
 --- !u!82 &1396509950
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12053,9 +12063,9 @@ MonoBehaviour:
   attachPoint: {fileID: 252766917}
   axis: {x: 0, y: 0, z: 1}
   anchor: {x: 0.1, y: 0, z: 0}
-  audioSource: {fileID: 0}
-  attachSound: {fileID: 0}
-  pullSound: {fileID: 0}
+  audioSource: {fileID: 1537435189}
+  attachSound: {fileID: 8300000, guid: c6bc574867deb52418abb7e5cea4ba06, type: 3}
+  pullSound: {fileID: 8300000, guid: 02d56f6fd35cf6b42bd0ea2abb562959, type: 3}
 --- !u!82 &1537435189
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13015,7 +13025,7 @@ Transform:
   m_GameObject: {fileID: 1701626737}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: 0.35399997, y: 1.0279999, z: 0.72300005}
+  m_LocalPosition: {x: 0.35399997, y: 1.059, z: 0.707}
   m_LocalScale: {x: 2.3296096, y: 2.1, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13427,8 +13437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0453dc92c7deca947a668fc1783458cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
-  audioSource: {fileID: 0}
-  dropSound: {fileID: 0}
+  audioSource: {fileID: 1728730245}
+  dropSound: {fileID: 8300000, guid: b5580f47326e1554fb856d7738ab3217, type: 3}
 --- !u!82 &1728730245
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15405,7 +15415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4404403297568632, guid: 1810125aa94e737428b1b725dc3592a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.077
+      value: -2.418
       objectReference: {fileID: 0}
     - target: {fileID: 4404403297568632, guid: 1810125aa94e737428b1b725dc3592a1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15413,7 +15423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4404403297568632, guid: 1810125aa94e737428b1b725dc3592a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.7420001
+      value: -1.902
       objectReference: {fileID: 0}
     - target: {fileID: 4404403297568632, guid: 1810125aa94e737428b1b725dc3592a1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15881,7 +15891,7 @@ Transform:
   m_GameObject: {fileID: 1988982453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: -3.97, y: -0.20700002, z: -0.78}
+  m_LocalPosition: {x: -2.8, y: -0.20700002, z: -0.78}
   m_LocalScale: {x: 2.6922603, y: 2.1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16142,7 +16152,7 @@ Transform:
   m_GameObject: {fileID: 2034795399}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: 0.35399997, y: -1.696, z: 0.8499999}
+  m_LocalPosition: {x: 0.354, y: -1.696, z: 0.68}
   m_LocalScale: {x: 2.3296096, y: 2.1, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16283,7 +16293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8370297944059650696, guid: e36845a1fc47eef4983f7149b643d3e4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.3111951
+      value: 4.5753846
       objectReference: {fileID: 0}
     - target: {fileID: 8370297944059650696, guid: e36845a1fc47eef4983f7149b643d3e4, type: 3}
       propertyPath: m_LocalScale.z
@@ -16291,7 +16301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8370297944059650696, guid: e36845a1fc47eef4983f7149b643d3e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.65
+      value: -0.92
       objectReference: {fileID: 0}
     - target: {fileID: 8370297944059650696, guid: e36845a1fc47eef4983f7149b643d3e4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16863,7 +16873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622713565080048, guid: fcf33ec5356e5264a93d7b3ebc620838, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.681
+      value: -2.022
       objectReference: {fileID: 0}
     - target: {fileID: 4622713565080048, guid: fcf33ec5356e5264a93d7b3ebc620838, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16871,7 +16881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622713565080048, guid: fcf33ec5356e5264a93d7b3ebc620838, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.946
+      value: -1.1059998
       objectReference: {fileID: 0}
     - target: {fileID: 4622713565080048, guid: fcf33ec5356e5264a93d7b3ebc620838, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17124,9 +17134,9 @@ MonoBehaviour:
   attachPoint: {fileID: 1069143208}
   axis: {x: 0, y: 0, z: 1}
   anchor: {x: 0.1, y: 0, z: 0}
-  audioSource: {fileID: 0}
-  attachSound: {fileID: 0}
-  pullSound: {fileID: 0}
+  audioSource: {fileID: 2130515285}
+  attachSound: {fileID: 8300000, guid: c6bc574867deb52418abb7e5cea4ba06, type: 3}
+  pullSound: {fileID: 8300000, guid: 02d56f6fd35cf6b42bd0ea2abb562959, type: 3}
 --- !u!82 &2130515285
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23354,7 +23364,7 @@ Transform:
   m_GameObject: {fileID: 4118891706396333593}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3349999, y: -1.222, z: 0.796}
+  m_LocalPosition: {x: -1.082, y: -1.222, z: -0.035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25055,7 +25065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5178068887104893274
 Transform:
   m_ObjectHideFlags: 0
