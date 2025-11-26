@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Content.Interaction;
+using UnityEngine.Events;
 
 public class KnobWaterActivator : MonoBehaviour
 {
+    public UnityEvent Event;
+
     public XRKnob knob;                         // XRKnob 참조
     public FaucetWaterController waterControl;  // 물 스크립트
 
@@ -21,6 +24,7 @@ public class KnobWaterActivator : MonoBehaviour
         if (val >= triggerValue)
         {
             waterControl.StartWater();
+            Event.Invoke();
         }
         else
         {
