@@ -4,26 +4,38 @@ using System.Collections;
 
 public class FinalButton : MonoBehaviour
 {
-    [Header("1. 소리 설정")]
+    [Header("1. 버튼 소리 설정")]
     public AudioSource audioSource;
-    public AudioClip buttonSound; // 버튼 누르는 소리 (철컥/쾅)
+    public AudioClip buttonSound; // 버튼 누르는 "딸각" 소리
 
     [Header("2. 빛/시각 설정")]
-    public GameObject lightObject; // 켜질 조명 (Spot/Point Light)
-    public Renderer buttonRenderer; // 버튼 모델 (색 바꿀 때)
+    public GameObject lightObject;
+    public Renderer buttonRenderer;
     [ColorUsage(true, true)]
-    public Color emissionColor = Color.red * 3f; // 빛나는 색
+    public Color emissionColor = Color.red * 3f;
 
-    [Header("3. 딜레이 및 후속 이벤트")]
-    public float delayTime = 1.0f; // 소리 나고 얼마나 기다릴지
-    public UnityEvent onSequenceFinish; // 딜레이 후 실행할 것 (탈출구 열기 등)
+    // ▼▼▼ [추가된 부분: 물체 이동 설정] ▼▼▼
+    [Header("3. 물체 이동 설정 (2개)")]
+    public Transform object1; // 움직일 물체 1 (예: 책상)
+    public Transform object2; // 움직일 물체 2 (예: 의자, 또는 반대쪽 문)
+
+    public Vector3 moveAxis = new Vector3(0, 0, 1); // 이동 방향 (X, Y, Z 중 하나를 1로)
+    public float moveDistance = 2.0f; // 이동 거리 (미터)
+    public float moveSpeed = 1.0f;    // 이동 속도
+
+    public AudioClip moveSound;       // 물체 움직이는 소리 (드르륵, 웅~)
+    public float moveDelay = 0.5f;    // 버튼 누르고 몇 초 뒤에 움직일지
+    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+    [Header("4. 마무리 이벤트")]
+    public float finishDelay = 2.0f; // 이동 다 끝나고 실행할 이벤트 대기 시간
+    public UnityEvent onSequenceFinish;
 
     private bool isPressed = false;
 
-    // ★ 이 함수를 XR 이벤트에 연결하세요
     public void PressButton()
     {
-        if (isPressed) return; // 한 번만 눌리게
+        if (isPressed) return;
         isPressed = true;
 
         StartCoroutine(ActionRoutine());
@@ -31,24 +43,54 @@ public class FinalButton : MonoBehaviour
 
     IEnumerator ActionRoutine()
     {
-        // 1. 소리 재생
+        // 1. 버튼 반응 (소리 & 빛)
         if (audioSource != null && buttonSound != null)
             audioSource.PlayOneShot(buttonSound);
 
-        // 2. 조명 켜기 (오브젝트 활성화)
-        if (lightObject != null)
-            lightObject.SetActive(true);
+        if (lightObject != null) lightObject.SetActive(true);
 
-        // 3. 버튼 자체 발광 (Emission)
         if (buttonRenderer != null)
             buttonRenderer.material.SetColor("_EmissionColor", emissionColor);
 
-        Debug.Log("🚨 버튼 작동! 딜레이 시작...");
+        Debug.Log("🚨 버튼 작동!");
 
-        // 4. 기다리기
-        yield return new WaitForSeconds(delayTime);
+        // 2. 이동 시작 전 딜레이 (잠시 대기)
+        yield return new WaitForSeconds(moveDelay);
 
-        // 5. 연결된 다음 행동 실행 (예: 문 열기, 엔딩 크레딧)
+        // 3. 물체 이동 소리 재생
+        if (audioSource != null && moveSound != null)
+            audioSource.PlayOneShot(moveSound);
+
+        // 4. 물체 이동 시작 (병렬 실행)
+        // 두 물체를 동시에 움직이게 함
+        StartCoroutine(MoveObjectRoutine(object1));
+        StartCoroutine(MoveObjectRoutine(object2));
+
+        // 5. 마무리 이벤트 대기
+        yield return new WaitForSeconds(finishDelay);
+
+        Debug.Log("🎉 모든 시퀀스 종료. 다음 단계 실행.");
         onSequenceFinish?.Invoke();
+    }
+
+    // 실제로 물체를 부드럽게 옮기는 함수
+    IEnumerator MoveObjectRoutine(Transform target)
+    {
+        if (target == null) yield break;
+
+        Vector3 startPos = target.position;
+        // 목표 위치 = 시작위치 + (방향 * 거리)
+        Vector3 endPos = startPos + (moveAxis.normalized * moveDistance);
+
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime * moveSpeed;
+            // Lerp를 써서 부드럽게 이동
+            target.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+        // 끝에 도달하면 확실하게 고정
+        target.position = endPos;
     }
 }
