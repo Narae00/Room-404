@@ -3,17 +3,18 @@ using UnityEngine;
 public class FaucetWaterController : MonoBehaviour
 {
     [Header("Water Settings")]
-    public ParticleSystem waterParticle;      
-    public Transform waterPlane;              
-    public float waterRiseSpeed = 0.1f;       
-    public float maxWaterHeight = 0.3f;       
+    public ParticleSystem waterParticle;
+    public Transform waterPlane;
+    public float waterRiseSpeed = 0.1f;
+    public float maxWaterHeight = 0.3f;
 
     [Header("Duration Settings")]
-    public float waterDuration = 5f;          
+    public float waterDuration = 5f;
 
     [Header("Effects")]
-    public ParticleSystem steamParticle;       // 연기 파티클
-    public float steamDuration = 3f;           // 연기 재생 시간
+    public ParticleSystem steamParticle;
+    public float steamDuration = 3f;
+    public MirrorText mirrorText;
 
     private bool isRunning = false;
     private float waterTimer = 0f;
@@ -23,7 +24,6 @@ public class FaucetWaterController : MonoBehaviour
 
     void Update()
     {
-        // 물 재생 중
         if (isRunning)
         {
             waterTimer += Time.deltaTime;
@@ -35,39 +35,41 @@ public class FaucetWaterController : MonoBehaviour
             }
             else
             {
-                // 물이 다 찼으면 연기 파티클 ON
+                // 물이 다 차면 연기 시작
                 if (!steamPlayed)
-                {   
-                    steamParticle.Clear();
-                    steamParticle.gameObject.SetActive(true);
-                    steamParticle.Play();
+                {
                     steamPlayed = true;
-                    steamTimer = 0f;   // 연기 타이머 초기화
+                    steamTimer = 0f;
+
+                    steamParticle.gameObject.SetActive(true);
+                    steamParticle.Clear();
+                    steamParticle.Play();
                 }
             }
 
-            // 물 재생 시간 끝
             if (waterTimer >= waterDuration)
             {
                 StopWater();
             }
         }
 
-        // 연기 재생 중이면 타이머 계산
+        // 연기 타이머
         if (steamPlayed)
         {
             steamTimer += Time.deltaTime;
 
-            // 연기 지속 시간 끝나면 끄기
+            // 거울 글씨 표시
+            mirrorText.ShowMirrorText();
+
             if (steamTimer >= steamDuration)
             {
                 steamParticle.Stop();
+                // SetActive(false) 하지 않음 — 꺼지면 다시 Play가 안 먹히기 때문
                 steamPlayed = false;
             }
         }
     }
 
-    // 수도꼭지 ON
     public void StartWater()
     {
         if (isRunning) return;
@@ -78,15 +80,15 @@ public class FaucetWaterController : MonoBehaviour
         // 연기 초기화
         steamPlayed = false;
         steamTimer = 0f;
+
+        // 파티클 오브젝트는 끄지 않음 → 재생 가능상태 유지
         steamParticle.Stop();
         steamParticle.Clear();
-        steamParticle.gameObject.SetActive(false);
 
         if (!waterParticle.isPlaying)
             waterParticle.Play();
     }
 
-    // 수도꼭지 OFF
     public void StopWater()
     {
         isRunning = false;
