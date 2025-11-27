@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class MirrorText : MonoBehaviour
 {
-    [SerializeField] TextMeshPro tmpro;
+    [SerializeField] Material material;
 
+    private void Awake()
+    {
+        material.color = new Color(1, 1, 1, 0);
+    }
     public void ShowMirrorText()
     {
         StartCoroutine(FadeIn());
@@ -15,10 +19,10 @@ public class MirrorText : MonoBehaviour
     IEnumerator FadeIn()
     {
         yield return new WaitForSeconds(2f);
-        while(tmpro.color.a <= 1f)
+        while(material.color.a <= 0.8f)
         {
-            Color prevColor = tmpro.color;
-            tmpro.color = new Color(prevColor.r, prevColor.g, prevColor.b, prevColor.a += Time.deltaTime / 3);
+            Color prevColor = material.color;
+            material.color = new Color(prevColor.r, prevColor.g, prevColor.b, prevColor.a += Time.deltaTime / 10f);
             yield return new WaitForEndOfFrame();
         }
     }
